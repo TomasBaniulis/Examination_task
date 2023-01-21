@@ -10,8 +10,8 @@ public class ExamAnswers extends Exam{
     public ExamAnswers() {
     }
 
-    public ExamAnswers(String teacherId, String teacherName, String teacherSurname, String password, String examId, String examName, LocalDate examDate, Map<Integer, Integer> answers) {
-        super(teacherId, teacherName, teacherSurname, password, examId, examName, examDate);
+    public ExamAnswers(String subjectName, String teacherId, String teacherName, String password, String examId, String examName, LocalDate examDate, Map<Integer, Integer> answers) {
+        super(subjectName, teacherId, teacherName, password, examId, examName, examDate);
         this.answers = answers;
     }
 
@@ -32,7 +32,6 @@ public class ExamAnswers extends Exam{
                 ", examDate=" + examDate +
                 ", teacherId='" + teacherId + '\'' +
                 ", teacherName='" + teacherName + '\'' +
-                ", teacherSurname='" + teacherSurname + '\'' +
                 '}';
     }
 }

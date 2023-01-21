@@ -7,6 +7,10 @@ public class Subject {
     public Subject() {
     }
 
+    public Subject(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
     public String getSubjectName() {
         return subjectName;
     }

@@ -12,8 +12,8 @@ public class Exam extends Teacher {
     public Exam() {
     }
 
-    public Exam(String teacherId, String teacherName, String teacherSurname, String password, String examId, String examName, LocalDate examDate) {
-        super(teacherId, teacherName, teacherSurname, password);
+    public Exam(String subjectName, String teacherId, String teacherName, String password, String examId, String examName, LocalDate examDate) {
+        super( subjectName, teacherId, teacherName, password);
         this.examId = examId;
         this.examName = examName;
         this.examDate = examDate;
@@ -51,7 +51,6 @@ public class Exam extends Teacher {
                 ", examDate=" + examDate +
                 ", teacherId='" + teacherId + '\'' +
                 ", teacherName='" + teacherName + '\'' +
-                ", teacherSurname='" + teacherSurname + '\'' +
                 '}';
     }
 }

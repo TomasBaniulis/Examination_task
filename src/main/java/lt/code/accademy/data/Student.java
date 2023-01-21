@@ -4,16 +4,14 @@ public class Student {
 
     String id;
     String name;
-    String surname;
     String password;
 
     public Student() {
     }
 
-    public Student(String id, String name, String surname, String password) {
+    public Student(String id, String name, String password) {
         this.id = id;
         this.name = name;
-        this.surname = surname;
         this.password = password;
     }
 
@@ -32,15 +30,6 @@ public class Student {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -54,7 +43,6 @@ public class Student {
         return "Student{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

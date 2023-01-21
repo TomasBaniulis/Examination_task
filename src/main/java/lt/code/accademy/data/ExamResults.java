@@ -10,8 +10,8 @@ public class ExamResults extends Exam{
     public ExamResults() {
     }
 
-    public ExamResults(String teacherId, String teacherName, String teacherSurname, String password, String examId, String examName, LocalDate examDate, Map<String, Integer> results) {
-        super(teacherId, teacherName, teacherSurname, password, examId, examName, examDate);
+    public ExamResults(String subjectName, String teacherId, String teacherName, String password, String examId, String examName, LocalDate examDate, Map<String, Integer> results) {
+        super(subjectName, teacherId, teacherName, password, examId, examName, examDate);
         this.results = results;
     }
 }

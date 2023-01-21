@@ -80,7 +80,7 @@ public class Examination {
             counter++;
         }
         System.out.println("Questions have been generated");
-        return new ExamQuestions(teacher.getTeacherId(), teacher.getTeacherName(), teacher.getTeacherSurname(),
+        return new ExamQuestions(teacher.getSubjectName(), teacher.getTeacherId(), teacher.getTeacherName(),
                 teacher.getPassword(), examId, examName, date, questions);
     }
 
@@ -93,7 +93,7 @@ public class Examination {
             answers.put(counter, answer);
             counter++;
         }
-        return new ExamAnswers(exam.getExamId(), exam.getTeacherName(), exam.getTeacherSurname(), exam.getPassword(),
+        return new ExamAnswers(exam.getSubjectName(), exam.getExamId(), exam.getTeacherName(), exam.getPassword(),
                 exam.getExamId(), exam.getExamName(), exam.getExamDate(), answers);
     }
 

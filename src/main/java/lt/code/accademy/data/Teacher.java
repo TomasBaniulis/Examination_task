@@ -3,17 +3,15 @@ package lt.code.accademy.data;
 public class Teacher extends Subject {
     String teacherId;
     String teacherName;
-    String teacherSurname;
-
     String password;
 
     public Teacher() {
     }
 
-    public Teacher(String teacherId, String teacherName, String teacherSurname, String password) {
+    public Teacher(String subjectName, String teacherId, String teacherName, String password) {
+        super(subjectName);
         this.teacherId = teacherId;
         this.teacherName = teacherName;
-        this.teacherSurname = teacherSurname;
         this.password = password;
     }
 
@@ -32,15 +30,6 @@ public class Teacher extends Subject {
     public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;
     }
-
-    public String getTeacherSurname() {
-        return teacherSurname;
-    }
-
-    public void setTeacherSurname(String teacherSurname) {
-        this.teacherSurname = teacherSurname;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -54,7 +43,6 @@ public class Teacher extends Subject {
         return "Teacher{" +
                 "teacherId='" + teacherId + '\'' +
                 ", teacherName='" + teacherName + '\'' +
-                ", teacherSurname='" + teacherSurname + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
