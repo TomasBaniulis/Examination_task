@@ -3,6 +3,7 @@ package lt.code.accademy;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import lt.code.accademy.data.Exam;
+import lt.code.accademy.data.ExamAnswers;
 import lt.code.accademy.data.ExamQuestions;
 import lt.code.accademy.data.Teacher;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Examination {
@@ -26,7 +28,10 @@ public class Examination {
         mapper = new ObjectMapper();
         scanner = new Scanner(System.in);
         faker = new Faker();
+
     }
+
+    Random random = new Random();
 
     public String createExamFileName (Exam exam){
         String extension = ".json";
@@ -60,7 +65,7 @@ public class Examination {
         }
     }
 
-    public ExamQuestions createExam (Teacher teacher){
+    public ExamQuestions createExamQuestions (Teacher teacher){
         System.out.println("Generating exam id");
         String examId =faker.idNumber().toString();
         System.out.println("Exam id number:" + examId);
@@ -74,9 +79,22 @@ public class Examination {
             questions.put(counter, question);
             counter++;
         }
-        ExamQuestions exam = new ExamQuestions(teacher.getTeacherId(), teacher.getTeacherName(), teacher.getTeacherSurname(),
+        System.out.println("Questions have been generated");
+        return new ExamQuestions(teacher.getTeacherId(), teacher.getTeacherName(), teacher.getTeacherSurname(),
                 teacher.getPassword(), examId, examName, date, questions);
-        return exam;
+    }
+
+    public ExamAnswers createExam (Teacher teacher){
+        ExamQuestions exam = createExamQuestions(teacher);
+        Map<Integer, Integer> answers = new HashMap<>();
+        int counter =1;
+        for (int i = 0; i<10; i++){
+            int answer = random.nextInt(1,3);
+            answers.put(counter, answer);
+            counter++;
+        }
+        return new ExamAnswers(exam.getExamId(), exam.getTeacherName(), exam.getTeacherSurname(), exam.getPassword(),
+                exam.getExamId(), exam.getExamName(), exam.getExamDate(), answers);
     }
 
 }
