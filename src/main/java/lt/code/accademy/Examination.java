@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -66,10 +67,15 @@ public class Examination {
         System.out.println("Enter exam name");
         String examName = scanner.nextLine();
         LocalDate date = getDate();
-
-
-
-        ExamQuestions exam = new ExamQuestions();
+        Map<Integer, String> questions = new HashMap<>();
+        int counter = 1;
+        for (int i = 0; i<10; i++){
+            String question = faker.chuckNorris().toString();
+            questions.put(counter, question);
+            counter++;
+        }
+        ExamQuestions exam = new ExamQuestions(teacher.getTeacherId(), teacher.getTeacherName(), teacher.getTeacherSurname(),
+                teacher.getPassword(), examId, examName, date, questions);
         return exam;
     }
 
