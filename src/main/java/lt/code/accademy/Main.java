@@ -7,12 +7,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Examination examination = new Examination();
         LoggingMenu menu = new LoggingMenu();
-        String action;
-        do {
-            menu.mainMenu();
-            action = scanner.nextLine();
-            menu.mainMenuAction(action);
-        }while (!action.equals("0"));
+        menu.mainMenu();
     }
 
 
