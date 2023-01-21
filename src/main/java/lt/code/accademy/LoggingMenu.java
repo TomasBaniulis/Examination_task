@@ -16,7 +16,14 @@ public class LoggingMenu {
             action = scanner.nextLine();
             mainMenuAction(action);
         }while (!action.equals("0"));
-
+    }
+    void mainMenuAction(String action){
+        switch (action){
+            case "1" -> teacherMenu();
+            case "2" -> studentMenu();
+            case "0" -> System.out.println("Exit");
+            default -> System.out.println("No such action");
+        }
     }
     void teacherMenu(){
         String action;
@@ -43,14 +50,6 @@ public class LoggingMenu {
             studentMenuAction(action);
         }while (!action.equals("0"));
     }
-    void mainMenuAction(String action){
-        switch (action){
-            case "1" -> teacherMenu();
-            case "2" -> studentMenu();
-            case "0" -> System.out.println("Exit");
-            default -> System.out.println("No such action");
-        }
-    }
     void teacherManuAction(String action){
         switch (action){
             case "1"-> System.out.println("creating exam");
@@ -66,9 +65,6 @@ public class LoggingMenu {
             case "2"-> System.out.println("getting exam results");
             case "0" -> System.out.println("Exit");
             default -> System.out.println("No such action");
-
         }
-
     }
-
 }
