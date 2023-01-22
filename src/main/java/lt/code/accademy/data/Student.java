@@ -9,6 +9,10 @@ public class Student {
     public Student() {
     }
 
+    public Student(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
     public Student(String id, String name, String password) {
         this.id = id;
         this.name = name;

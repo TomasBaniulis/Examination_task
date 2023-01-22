@@ -8,6 +8,10 @@ public class Teacher extends Subject {
     public Teacher() {
     }
 
+    public Teacher(String subjectName, String teacherName) {
+        super(subjectName);
+        this.teacherName = teacherName;
+    }
     public Teacher(String subjectName, String teacherId, String teacherName, String password) {
         super(subjectName);
         this.teacherId = teacherId;

@@ -71,8 +71,8 @@ public class Examination {
             counter++;
         }
         System.out.println("Exam has been generated");
-        Exam exam = new Exam(teacher.getSubjectName(), teacher.getTeacherId(), teacher.getTeacherName(),
-                teacher.getPassword(), examId, examName, dateString, questions, answers);
+        Exam exam = new Exam(teacher.getSubjectName(), teacher.getTeacherName(),
+                examId, examName, dateString, questions, answers);
         String fileName = exam.getExamId()+".json";
         writeToFile(fileName, exam);
     }
@@ -90,12 +90,14 @@ public class Examination {
             Exam exam = mapper.readValue(examFile, new TypeReference<>() {});
             LocalDate dateNow = LocalDate.now();
             if (!dateNow.equals(LocalDate.parse(exam.getExamDate()))){
-                System.out.printf("You can't take exam! Exam date is/was: %s", exam.getExamDate() );
+                System.out.printf("You can't take exam! Exam date is/was: %s%n", exam.getExamDate() );
+                return;
             }
             Map <Integer, Integer> studentAnswers = runQuestions(exam);
-            StudentAnswers answers = new StudentAnswers(student.getId(), student.getName(), student.getPassword(), id, studentAnswers);
+            StudentAnswers answers = new StudentAnswers(student.getId(), student.getName(), id, studentAnswers);
             String fileName = id + student.getId() + ".json";
             writeToFile(fileName, answers);
+            createListOfStudentAnswerFiles(exam, fileName);
         }catch (IOException e){
             System.out.println("Can't read exam file:" + e.getMessage());
         }
@@ -111,11 +113,29 @@ public class Examination {
             System.out.println("Answer:" + answer);
             answers.put(question.getKey(), answer);
         }
+        System.out.println("You have finished your exam!");
         return answers;
     }
 
+    void createListOfStudentAnswerFiles (Exam exam, String name) {
+        List<String > fileNames = new ArrayList<>();
+        String fileName = exam.getExamId() + "answerList.json";
+        File file = new File(fileName);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+                fileNames.add(name);
+                mapper.writeValue(file, fileNames);
+                return;
+            }
+            fileNames = mapper.readValue(file, new TypeReference<List<String>>() {});
+            fileNames.add(name);
 
+            mapper.writeValue(file, fileNames);
 
-
+        }catch (IOException e){
+            System.out.println("Cant create file:" + e.getMessage());
+        }
+    }
 }
 

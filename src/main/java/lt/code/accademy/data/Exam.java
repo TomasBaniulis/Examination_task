@@ -12,9 +12,17 @@ public class Exam extends Teacher {
     Map <Integer, String> questions;
     Map <Integer, Integer> rightAnswers;
 
+    public Exam(){}
 
-    public Exam(String subjectName, String teacherId, String teacherName, String password, String examId, String examName, String examDate, Map<Integer, String> questions, Map<Integer, Integer> rightAnswers) {
-        super(subjectName, teacherId, teacherName, password);
+    public Exam(String subjectName, String teacherName, String examId, String examName, String examDate){
+        super(subjectName, teacherName);
+        this.examId = examId;
+        this.examName = examName;
+        this.examDate = examDate;
+    }
+
+    public Exam(String subjectName, String teacherName, String examId, String examName, String examDate, Map<Integer, String> questions, Map<Integer, Integer> rightAnswers) {
+        super(subjectName, teacherName);
         this.examId = examId;
         this.examName = examName;
         this.examDate = examDate;

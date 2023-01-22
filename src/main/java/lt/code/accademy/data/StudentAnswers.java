@@ -10,8 +10,8 @@ public class StudentAnswers extends Student{
     public StudentAnswers() {
     }
 
-    public StudentAnswers(String id, String name, String password, String examId, Map<Integer, Integer> answers) {
-        super(id, name, password);
+    public StudentAnswers(String id, String name, String examId, Map<Integer, Integer> answers) {
+        super(id, name);
         this.examId = examId;
         this.answers = answers;
     }
