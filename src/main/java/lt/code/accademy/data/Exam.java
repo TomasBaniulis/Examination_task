@@ -9,14 +9,17 @@ public class Exam extends Teacher {
     String examName;
     LocalDate examDate;
 
-    public Exam() {
-    }
+    Map <Integer, String> questions;
+    Map <Integer, Integer> rightAnswers;
 
-    public Exam(String subjectName, String teacherId, String teacherName, String password, String examId, String examName, LocalDate examDate) {
-        super( subjectName, teacherId, teacherName, password);
+
+    public Exam(String subjectName, String teacherId, String teacherName, String password, String examId, String examName, LocalDate examDate, Map<Integer, String> questions, Map<Integer, Integer> rightAnswers) {
+        super(subjectName, teacherId, teacherName, password);
         this.examId = examId;
         this.examName = examName;
         this.examDate = examDate;
+        this.questions = questions;
+        this.rightAnswers = rightAnswers;
     }
 
     public String getExamId() {
@@ -43,14 +46,19 @@ public class Exam extends Teacher {
         this.examDate = examDate;
     }
 
-    @Override
-    public String toString() {
-        return "Exam{" +
-                "examId='" + examId + '\'' +
-                ", examName='" + examName + '\'' +
-                ", examDate=" + examDate +
-                ", teacherId='" + teacherId + '\'' +
-                ", teacherName='" + teacherName + '\'' +
-                '}';
+    public Map<Integer, String> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Map<Integer, String> questions) {
+        this.questions = questions;
+    }
+
+    public Map<Integer, Integer> getRightAnswers() {
+        return rightAnswers;
+    }
+
+    public void setRightAnswers(Map<Integer, Integer> rightAnswers) {
+        this.rightAnswers = rightAnswers;
     }
 }

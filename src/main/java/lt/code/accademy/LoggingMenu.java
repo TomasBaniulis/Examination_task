@@ -1,10 +1,8 @@
 package lt.code.accademy;
 
-import lt.code.accademy.data.ExamQuestions;
 import lt.code.accademy.data.Student;
 import lt.code.accademy.data.Teacher;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 

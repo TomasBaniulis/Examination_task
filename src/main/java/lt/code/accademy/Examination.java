@@ -1,11 +1,8 @@
 package lt.code.accademy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.javafaker.Faker;
 import lt.code.accademy.data.Exam;
-import lt.code.accademy.data.ExamAnswers;
-import lt.code.accademy.data.ExamQuestions;
 import lt.code.accademy.data.Teacher;
 
 import java.io.File;
@@ -13,21 +10,14 @@ import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Examination {
 
     Random random = new Random();
 
-    ExamQuestions questions;
-    ExamAnswers answers;
-
-    public String createExamFileName (Exam exam){
-        String extension = ".json";
-        String fileName = String.format(exam.getExamId()+extension);
+    public String createFileName (String name){
+        String fileName = name+".json";
         return fileName;
     }
 
@@ -44,7 +34,6 @@ public class Examination {
             }
         }
     }
-
     public void writeToFile (ObjectMapper mapper, String fileName, Object object){
         File file = new File(fileName);
         try{
@@ -56,8 +45,7 @@ public class Examination {
             System.out.printf("Can't create file %s: %s%n:", fileName, e.getMessage());
         }
     }
-
-    public ExamQuestions createExamQuestions (Faker faker, Scanner scanner, Teacher teacher){
+    void createExam (Faker faker, Scanner scanner, ObjectMapper mapper, Teacher teacher){
         System.out.println("Generating exam id");
         String examId =faker.idNumber().toString();
         System.out.println("Exam id number:" + examId);
@@ -65,29 +53,24 @@ public class Examination {
         String examName = scanner.nextLine();
         LocalDate date = getDate(scanner);
         Map<Integer, String> questions = new HashMap<>();
+        Map<Integer, Integer> answers = new HashMap<>();
         int counter = 1;
         for (int i = 0; i<10; i++){
             String question = faker.chuckNorris().toString();
             questions.put(counter, question);
+            int answer = random.nextInt(1,3);
+            answers.put(counter,answer);
             counter++;
         }
-        System.out.println("Questions have been generated");
-        return new ExamQuestions(teacher.getSubjectName(), teacher.getTeacherId(), teacher.getTeacherName(),
-                teacher.getPassword(), examId, examName, date, questions);
+        System.out.println("Exam has been generated");
+        Exam exam = new Exam(teacher.getSubjectName(), teacher.getTeacherId(), teacher.getTeacherName(),
+                teacher.getPassword(), examId, examName, date, questions, answers);
+        String fileName = createFileName(exam.getExamId());
+        writeToFile(mapper, fileName, exam);
+
     }
 
-    public ExamAnswers createExam (Teacher teacher, Faker faker, Scanner scanner){
-        ExamQuestions exam = createExamQuestions(faker, scanner, teacher);
-        Map<Integer, Integer> answers = new HashMap<>();
-        int counter =1;
-        for (int i = 0; i<10; i++){
-            int answer = random.nextInt(1,3);
-            answers.put(counter, answer);
-            counter++;
-        }
-        return new ExamAnswers(exam.getSubjectName(), exam.getExamId(), exam.getTeacherName(), exam.getPassword(),
-                exam.getExamId(), exam.getExamName(), exam.getExamDate(), answers);
-    }
+
 
     void takeExam (Scanner scanner){
         Map<String, ExamQuestions> exam = new HashMap<>();
