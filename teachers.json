@@ -1,8 +1,20 @@
 {
   "1" : {
-    "subjectName" : "Chuck Norris History",
+    "subjectName" : "Boomer",
     "teacherId" : "1",
-    "teacherName" : "Red Lyja Woman",
-    "password" : "tailor"
+    "teacherName" : "Mr. Gregory Strosin",
+    "password" : "alio"
+  },
+  "2" : {
+    "subjectName" : "Dark Tempest",
+    "teacherId" : "2",
+    "teacherName" : "Wiley Ruecker",
+    "password" : "alio"
+  },
+  "3" : {
+    "subjectName" : "General Garbage",
+    "teacherId" : "3",
+    "teacherName" : "Hollis Ondricka",
+    "password" : "alio"
   }
 }

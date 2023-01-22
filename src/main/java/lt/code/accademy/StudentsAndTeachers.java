@@ -12,59 +12,35 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class StudentsAndTeachers {
-
-
     String studentFile = "students.json";
     String teachersFile = "teachers.json";
 
-
-
-
+    Map<String, Teacher> teachers = new HashMap<>();
+    Map<String, Student> students = new HashMap<>();
+    Examination examination = new Examination();
 
     void generateStudents (ObjectMapper mapper, Faker faker){
-        Map<String, Student> students = new HashMap<>();
         int counter = 1;
-        for (int i=0; i<10; i++){
+        for (int i=0; i<20; i++){
             String id = String.valueOf(counter);
             String name = faker.name().fullName();
-            String password = faker.company().buzzword();
+            String password = "alio";
             students.put(id, new Student(id, name, password));
+            counter++;
         }
-        try{
-            File file = new File(studentFile);
-            if(!file.exists()){
-                file.createNewFile();
-            }
-            mapper.writeValue(file, students);
-
-        }catch (IOException e){
-            System.out.printf("Can't create % file: %s %n", studentFile, e.getMessage());
-        }
+        examination.writeToFile(mapper, studentFile, students);
     }
-
     void generateTeachers (ObjectMapper mapper, Faker faker){
-        Map<String, Teacher> teachers = new HashMap<>();
         int counter = 1;
-        for (int i=0; i<10; i++){
-            String subject = "Chuck Norris History";
-            String name = faker.superhero().name();
-            String password = faker.company().profession();
+        for (int i=0; i<3; i++){
+            String subject = faker.superhero().name();
+            String name = faker.name().fullName();
+            String password = "alio";
             String id = String.valueOf(counter);
             teachers.put(id, new Teacher(subject, id, name, password) );
+            counter++;
         }
-        try{
-            File file = new File(teachersFile);
-            if(!file.exists()){
-                file.createNewFile();
-            }
-            mapper.writeValue(file, teachers);
-
-        }catch (IOException e){
-            System.out.printf("Can't create % file: %s %n", teachersFile, e.getMessage());
-        }
-
-
-
+        examination.writeToFile(mapper, teachersFile, teachers);
     }
 
 
