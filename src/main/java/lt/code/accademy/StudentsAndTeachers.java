@@ -28,7 +28,7 @@ public class StudentsAndTeachers {
             students.put(id, new Student(id, name, password));
             counter++;
         }
-        examination.writeToFile(mapper, studentFile, students);
+        examination.writeToFile( studentFile, students);
     }
     void generateTeachers (ObjectMapper mapper, Faker faker){
         int counter = 1;
@@ -40,7 +40,7 @@ public class StudentsAndTeachers {
             teachers.put(id, new Teacher(subject, id, name, password) );
             counter++;
         }
-        examination.writeToFile(mapper, teachersFile, teachers);
+        examination.writeToFile(teachersFile, teachers);
     }
 
 

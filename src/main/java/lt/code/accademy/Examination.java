@@ -1,8 +1,12 @@
 package lt.code.accademy;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.javafaker.Faker;
 import lt.code.accademy.data.Exam;
+import lt.code.accademy.data.Student;
+import lt.code.accademy.data.StudentAnswers;
 import lt.code.accademy.data.Teacher;
 
 import java.io.File;
@@ -13,6 +17,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Examination {
+    Scanner scanner = new Scanner(System.in);
+    Faker faker = new Faker();
+    ObjectMapper mapper = new ObjectMapper();
 
     Random random = new Random();
 
@@ -21,7 +28,7 @@ public class Examination {
         return fileName;
     }
 
-    LocalDate getDate (Scanner scanner){
+    LocalDate getDate (){
         while (true){
             try{
                 System.out.println("Enter exam date yyyy.MM.dd :");
@@ -34,7 +41,7 @@ public class Examination {
             }
         }
     }
-    public void writeToFile (ObjectMapper mapper, String fileName, Object object){
+    public void writeToFile (String fileName, Object object){
         File file = new File(fileName);
         try{
             if (!file.exists()){
@@ -45,18 +52,19 @@ public class Examination {
             System.out.printf("Can't create file %s: %s%n:", fileName, e.getMessage());
         }
     }
-    void createExam (Faker faker, Scanner scanner, ObjectMapper mapper, Teacher teacher){
+    void createExam (Teacher teacher){
         System.out.println("Generating exam id");
-        String examId =faker.idNumber().toString();
+        String examId =faker.code().ean8();
         System.out.println("Exam id number:" + examId);
-        System.out.println("Enter exam name");
-        String examName = scanner.nextLine();
-        LocalDate date = getDate(scanner);
+        String examName = faker.commerce().material();
+        System.out.println(examName);
+        LocalDate date = getDate();
+        String dateString = date.toString();
         Map<Integer, String> questions = new HashMap<>();
         Map<Integer, Integer> answers = new HashMap<>();
         int counter = 1;
         for (int i = 0; i<10; i++){
-            String question = faker.chuckNorris().toString();
+            String question = faker.chuckNorris().fact();
             questions.put(counter, question);
             int answer = random.nextInt(1,3);
             answers.put(counter,answer);
@@ -64,47 +72,49 @@ public class Examination {
         }
         System.out.println("Exam has been generated");
         Exam exam = new Exam(teacher.getSubjectName(), teacher.getTeacherId(), teacher.getTeacherName(),
-                teacher.getPassword(), examId, examName, date, questions, answers);
-        String fileName = createFileName(exam.getExamId());
-        writeToFile(mapper, fileName, exam);
-
+                teacher.getPassword(), examId, examName, dateString, questions, answers);
+        String fileName = exam.getExamId()+".json";
+        writeToFile(fileName, exam);
     }
 
-
-
-    void takeExam (Scanner scanner){
-        Map<String, ExamQuestions> exam = new HashMap<>();
-        System.out.println( "Enter exam id");
-        String examId = scanner.nextLine();
+    void takeExam (Student student){
+        System.out.println("Enter exam id");
+        String id = scanner.nextLine();
+        String examFileName = id+".json";
+        File examFile = new File(examFileName);
+        if (!examFile.exists()){
+            System.out.println("No such exam id!");
+            return;
+        }
+        try {
+            Exam exam = mapper.readValue(examFile, new TypeReference<>() {});
+            LocalDate dateNow = LocalDate.now();
+            if (!dateNow.equals(LocalDate.parse(exam.getExamDate()))){
+                System.out.printf("You can't take exam! Exam date is/was: %s", exam.getExamDate() );
+            }
+            Map <Integer, Integer> studentAnswers = runQuestions(exam);
+            StudentAnswers answers = new StudentAnswers(student.getId(), student.getName(), student.getPassword(), id, studentAnswers);
+            String fileName = id + student.getId() + ".json";
+            writeToFile(fileName, answers);
+        }catch (IOException e){
+            System.out.println("Can't read exam file:" + e.getMessage());
+        }
     }
-
-    void runQuestions (ExamQuestions examQuestions, Scanner scanner){
-        Map <Integer, String> questions = examQuestions.getQuestions();
+    Map<Integer, Integer> runQuestions (Exam exam){
+        Map <Integer, String> questions = exam.getQuestions();
+        Map<Integer, Integer> answers = new HashMap<>();
         int answer;
         for (Map.Entry<Integer, String> question: questions.entrySet()){
             System.out.printf("Question no. %s%n", question.getKey());
             System.out.println(question.getValue());
-            answer = getAnswer(scanner);
+            answer = random.nextInt(1,3);
+            System.out.println("Answer:" + answer);
+            answers.put(question.getKey(), answer);
         }
+        return answers;
     }
 
-    int getAnswer (Scanner scanner){
-        int answer;
-        while (true) {
-            System.out.println(" [1] TRUE     [2] NOT TRUE");
-            String input = scanner.nextLine();
-            switch (input){
-                case "1" -> {
-                    answer = 1;
-                    return answer;
-                }
-                case "2" -> {
-                    answer = 2;
-                    return answer;
-                }
-            }
-        }
-    }
+
 
 
 }

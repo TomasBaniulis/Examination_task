@@ -7,13 +7,13 @@ public class Exam extends Teacher {
 
     String examId;
     String examName;
-    LocalDate examDate;
+    String examDate;
 
     Map <Integer, String> questions;
     Map <Integer, Integer> rightAnswers;
 
 
-    public Exam(String subjectName, String teacherId, String teacherName, String password, String examId, String examName, LocalDate examDate, Map<Integer, String> questions, Map<Integer, Integer> rightAnswers) {
+    public Exam(String subjectName, String teacherId, String teacherName, String password, String examId, String examName, String examDate, Map<Integer, String> questions, Map<Integer, Integer> rightAnswers) {
         super(subjectName, teacherId, teacherName, password);
         this.examId = examId;
         this.examName = examName;
@@ -38,11 +38,11 @@ public class Exam extends Teacher {
         this.examName = examName;
     }
 
-    public LocalDate getExamDate() {
+    public String getExamDate() {
         return examDate;
     }
 
-    public void setExamDate(LocalDate examDate) {
+    public void setExamDate(String examDate) {
         this.examDate = examDate;
     }
 
