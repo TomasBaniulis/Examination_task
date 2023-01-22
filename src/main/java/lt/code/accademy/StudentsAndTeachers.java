@@ -3,6 +3,7 @@ package lt.code.accademy;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
+import lt.code.accademy.data.FileNames;
 import lt.code.accademy.data.Student;
 import lt.code.accademy.data.Teacher;
 
@@ -13,8 +14,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class StudentsAndTeachers {
-    String studentFile = "students.json";
-    String teachersFile = "teachers.json";
+    WriteReadFile writeReadFile = new WriteReadFile();
 
     Examination examination = new Examination();
     void generateStudents(ObjectMapper mapper, Faker faker) {
@@ -27,7 +27,7 @@ public class StudentsAndTeachers {
             students.put(id, new Student(id, name, password));
             counter++;
         }
-        examination.writeToFile(studentFile, students);
+        writeReadFile.writeToFile(mapper, FileNames.STUDENTS_FILE.toString(), students);
     }
     void generateTeachers(ObjectMapper mapper, Faker faker) {
         Map<String, Teacher> teachers = new HashMap<>();
@@ -40,7 +40,7 @@ public class StudentsAndTeachers {
             teachers.put(id, new Teacher(subject, id, name, password));
             counter++;
         }
-        examination.writeToFile(teachersFile, teachers);
+        writeReadFile.writeToFile(mapper, FileNames.TEACHERS_FILE.toString(), teachers);
     }
     Map<String, Student> readStudents(ObjectMapper mapper, String studentsFile) {
         try {

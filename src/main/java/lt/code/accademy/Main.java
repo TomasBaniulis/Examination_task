@@ -21,8 +21,6 @@ public class Main {
         StudentsAndTeachers studentsAndTeachers = new StudentsAndTeachers();
         LoggingMenu menu = new LoggingMenu();
 
-       File studentFile = new File("students.json");
-       File teacherFile = new File("teachers.json");
         Map<String, Student> students = studentsAndTeachers.readStudents(mapper, FileNames.STUDENTS_FILE.toString());
         Map<String, Teacher> teachers = studentsAndTeachers.readTeachers(mapper, FileNames.TEACHERS_FILE.toString());
 

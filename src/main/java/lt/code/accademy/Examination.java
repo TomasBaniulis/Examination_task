@@ -18,6 +18,8 @@ public class Examination {
     Faker faker = new Faker();
     ObjectMapper mapper = new ObjectMapper();
 
+    WriteReadFile writeReadFile = new WriteReadFile();
+
     Random random = new Random();
 
     public String createFileName (String name){
@@ -38,17 +40,7 @@ public class Examination {
             }
         }
     }
-    public void writeToFile (String fileName, Object object){
-        File file = new File(fileName);
-        try{
-            if (!file.exists()){
-                file.createNewFile();
-            }
-            mapper.writeValue(file,object);
-        }catch (IOException e){
-            System.out.printf("Can't create file %s: %s%n:", fileName, e.getMessage());
-        }
-    }
+
     void createExam (Teacher teacher){
         System.out.println("Generating exam id");
         String examId =faker.code().ean8();
@@ -71,7 +63,7 @@ public class Examination {
         Exam exam = new Exam(teacher.getSubjectName(), teacher.getTeacherName(),
                 examId, examName, dateString, questions, answers);
         String fileName = exam.getExamId() + FileNames.JSON_EXTENSION;
-        writeToFile(fileName, exam);
+        writeReadFile.writeToFile(mapper,fileName, exam);
     }
 
     void takeExam (Student student){
@@ -98,7 +90,7 @@ public class Examination {
             }
             Map <Integer, Integer> studentAnswers = runQuestions(exam);
             StudentAnswers answers = new StudentAnswers(student.getId(), student.getName(), exam.getExamId(), studentAnswers);
-            writeToFile(fileName, answers);
+            writeReadFile.writeToFile(mapper, fileName, answers);
             createListOfStudentAnswerFiles(exam, fileName);
         }catch (IOException e){
             System.out.println("Can't read exam file:" + e.getMessage());
@@ -130,7 +122,7 @@ public class Examination {
                 mapper.writeValue(file, fileNames);
                 return;
             }
-            fileNames = mapper.readValue(file, new TypeReference<List<String>>() {});
+            fileNames = mapper.readValue(file, new TypeReference<>() {});
             fileNames.add(name);
 
             mapper.writeValue(file, fileNames);

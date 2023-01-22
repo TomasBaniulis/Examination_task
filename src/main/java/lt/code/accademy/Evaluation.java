@@ -13,6 +13,7 @@ public class Evaluation {
 
     ObjectMapper mapper = new ObjectMapper();
     Examination examination = new Examination();
+    WriteReadFile writeReadFile = new WriteReadFile();
 
     void evaluationMain (Scanner scanner){
         System.out.println("Enter exam id, to make evaluation");
@@ -57,7 +58,7 @@ public class Evaluation {
                 marks.put(student, grade);
             }
             String examMarksFileName = exam.getExamId() + FileNames.GRADES_FILE_EXTENSION;
-            examination.writeToFile(examMarksFileName, marks);
+            writeReadFile.writeToFile(mapper,examMarksFileName, marks);
 
         }catch (IOException e){
             System.out.println("can't read file:" + e.getMessage() );
