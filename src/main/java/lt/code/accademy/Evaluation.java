@@ -3,10 +3,7 @@ package lt.code.accademy;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lt.code.accademy.data.Exam;
-import lt.code.accademy.data.ExamMarks;
-import lt.code.accademy.data.Student;
-import lt.code.accademy.data.StudentAnswers;
+import lt.code.accademy.data.*;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -20,7 +17,7 @@ public class Evaluation {
     void evaluationMain (Scanner scanner){
         System.out.println("Enter exam id, to make evaluation");
         String examId = scanner.nextLine();
-        String examFileName = examId + ".json";
+        String examFileName = examId + FileNames.JSON_EXTENSION;
         try {
             File file = new File(examFileName);
             if (!file.exists()){
@@ -33,7 +30,7 @@ public class Evaluation {
                 System.out.println("It's to early to make evaluation! Exam date:" + exam.getExamDate());
                 return;
             }
-            String answerListFileName = exam.getExamId() + "answerList.json";
+            String answerListFileName = exam.getExamId() + FileNames.ANSWERS_FILES_LIST_FILE_EXTENSION;
             evaluateStudents(answerListFileName, exam);
 
         }catch (IOException e){
@@ -59,7 +56,7 @@ public class Evaluation {
                 Student student = new Student( studentAnswer.getId(),studentAnswer.getName());
                 marks.put(student, grade);
             }
-            String examMarksFileName = exam.getExamId()+"marks.json";
+            String examMarksFileName = exam.getExamId() + FileNames.GRADES_FILE_EXTENSION;
             examination.writeToFile(examMarksFileName, marks);
 
         }catch (IOException e){

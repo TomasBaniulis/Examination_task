@@ -4,10 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.javafaker.Faker;
-import lt.code.accademy.data.Exam;
-import lt.code.accademy.data.Student;
-import lt.code.accademy.data.StudentAnswers;
-import lt.code.accademy.data.Teacher;
+import lt.code.accademy.data.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,14 +70,14 @@ public class Examination {
         System.out.println("Exam has been generated");
         Exam exam = new Exam(teacher.getSubjectName(), teacher.getTeacherName(),
                 examId, examName, dateString, questions, answers);
-        String fileName = exam.getExamId()+".json";
+        String fileName = exam.getExamId() + FileNames.JSON_EXTENSION;
         writeToFile(fileName, exam);
     }
 
     void takeExam (Student student){
         System.out.println("Enter exam id");
         String id = scanner.nextLine();
-        String examFileName = id+".json";
+        String examFileName = id + FileNames.JSON_EXTENSION; ;
         File examFile = new File(examFileName);
         if (!examFile.exists()){
             System.out.println("No such exam id!");
@@ -93,16 +90,11 @@ public class Examination {
                 System.out.printf("You can't take exam! Exam date is/was: %s%n", exam.getExamDate() );
                 return;
             }
-            String fileName = id + student.getId() + ".json";
-            File file = new File(fileName);
-            if (file.exists()){
-                List<String> answers = mapper.readValue(file, new TypeReference<>() {});
-                for (String answer: answers){
-                    if (answer.equals(fileName)){
-                        System.out.println("You can't take exam second time!");
-                        return;
-                    }
-                }
+            String fileName = id + student.getId() + FileNames.JSON_EXTENSION;
+            String answersListFile = exam.getExamId() + FileNames.ANSWERS_FILES_LIST_FILE_EXTENSION;
+            boolean firstAttempt = checkForSecondAttempt(fileName, answersListFile);
+            if (firstAttempt != true){
+                return;
             }
             Map <Integer, Integer> studentAnswers = runQuestions(exam);
             StudentAnswers answers = new StudentAnswers(student.getId(), student.getName(), exam.getExamId(), studentAnswers);
@@ -129,7 +121,7 @@ public class Examination {
 
     void createListOfStudentAnswerFiles (Exam exam, String name) {
         List<String > fileNames = new ArrayList<>();
-        String fileName = exam.getExamId() + "answerList.json";
+        String fileName = exam.getExamId() + FileNames.ANSWERS_FILES_LIST_FILE_EXTENSION;
         File file = new File(fileName);
         try {
             if (!file.exists()) {
@@ -146,6 +138,25 @@ public class Examination {
         }catch (IOException e){
             System.out.println("Cant create file:" + e.getMessage());
         }
+    }
+
+    boolean checkForSecondAttempt (String fileName, String listFile){
+        try {
+            File file = new File(listFile);
+            if (file.exists()) {
+                List<String> answers = mapper.readValue(file, new TypeReference<>() {
+                });
+                for (String answer : answers) {
+                    if (answer.equals(fileName)) {
+                        System.out.println("You can't take exam second time!");
+                        return false;
+                    }
+                }
+            }
+        }catch (IOException e){
+            System.out.printf("Can't read %s file : %s%n", fileName, e.getMessage());
+        }
+        return true;
     }
 }
 

@@ -2,14 +2,14 @@ package lt.code.accademy.data;
 
 import java.util.Map;
 
-public class ExamMarks extends Exam {
+public class ExamGrades extends Exam {
 
     Map<Student, Integer> marks;
 
-    public ExamMarks() {
+    public ExamGrades() {
     }
 
-    public ExamMarks(String subjectName, String teacherName, String examId, String examName, String examDate, Map<Student, Integer> marks) {
+    public ExamGrades(String subjectName, String teacherName, String examId, String examName, String examDate, Map<Student, Integer> marks) {
         super(subjectName, teacherName, examId, examName, examDate);
         this.marks = marks;
     }

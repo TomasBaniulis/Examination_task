@@ -1,17 +1,14 @@
 package lt.code.accademy;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.javafaker.Faker;
+import lt.code.accademy.data.FileNames;
 import lt.code.accademy.data.Student;
 import lt.code.accademy.data.Teacher;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -26,8 +23,8 @@ public class Main {
 
        File studentFile = new File("students.json");
        File teacherFile = new File("teachers.json");
-        Map<String, Student> students = mapper.readValue(studentFile, new TypeReference<>() {});
-        Map<String, Teacher> teachers = mapper.readValue(teacherFile, new TypeReference<>() {});
+        Map<String, Student> students = studentsAndTeachers.readStudents(mapper, FileNames.STUDENTS_FILE.toString());
+        Map<String, Teacher> teachers = studentsAndTeachers.readTeachers(mapper, FileNames.TEACHERS_FILE.toString());
 
         //studentsAndTeachers.generateStudents(mapper, faker);
         //studentsAndTeachers.generateTeachers(mapper, faker);
