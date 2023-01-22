@@ -1,5 +1,6 @@
 package lt.code.accademy;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.code.accademy.data.Exam;
@@ -7,12 +8,9 @@ import lt.code.accademy.data.ExamMarks;
 import lt.code.accademy.data.Student;
 import lt.code.accademy.data.StudentAnswers;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.*;
+import java.time.LocalDate;
+import java.util.*;
 
 public class Evaluation {
 
@@ -22,25 +20,43 @@ public class Evaluation {
     void evaluationMain (Scanner scanner){
         System.out.println("Enter exam id, to make evaluation");
         String examId = scanner.nextLine();
+        String examFileName = examId + ".json";
+        try {
+            File file = new File(examFileName);
+            if (!file.exists()){
+                System.out.println("exam id doesn't exist!");
+                return;
+            }
+            Exam exam = mapper.readValue(file, new TypeReference<>() {});
+            LocalDate now = LocalDate.now();
+            if (now.isBefore(LocalDate.parse(exam.getExamDate()))){
+                System.out.println("It's to early to make evaluation! Exam date:" + exam.getExamDate());
+                return;
+            }
+            String answerListFileName = exam.getExamId() + "answerList.json";
+            evaluateStudents(answerListFileName, exam);
 
-
-
+        }catch (IOException e){
+            System.out.println("can't read exam file:" + e.getMessage());
+        }
     }
 
-    void evaluateStudents (String namesListFile, Exam exam, String examFileName){
+    void evaluateStudents (String answerListFileName, Exam exam){
         try {
-            List<String> fileNames = readStudentsAnswersFile(namesListFile);
+            List<String> fileNames = readAnswerListFile(answerListFileName);
             Map < Student, Integer> marks = new HashMap<>();
 
             for (String fileName : fileNames) {
                 File file = new File(fileName);
-                StudentAnswers studentAnswer = mapper.readValue(file, new TypeReference<StudentAnswers>() {});
-                Map<Integer, Integer> studentAnswers = getStudentAnswers(fileName);
-                Map<Integer, Integer> rightAnswers = getRightAnswers(exam, examFileName);
+                StudentAnswers studentAnswer = mapper.readValue(file, new TypeReference<>() {});
+                Map<Integer, Integer> studentAnswers = studentAnswer.getAnswers();
+                Map<Integer, Integer> rightAnswers = exam.getRightAnswers();
                 int numberOfRightAnswers = compareAnswers(studentAnswers, rightAnswers);
                 int totalNumberOfQuestions = rightAnswers.size();
-                int grade = numberOfRightAnswers/totalNumberOfQuestions;
-                Student student = new Student(studentAnswer.getId(), studentAnswer.getName());
+                System.out.println("total number of questions:" + totalNumberOfQuestions);
+                int grade = numberOfRightAnswers *10/totalNumberOfQuestions;
+                System.out.println("grade:" + grade);
+                Student student = new Student( studentAnswer.getId(),studentAnswer.getName());
                 marks.put(student, grade);
             }
             String examMarksFileName = exam.getExamId()+"marks.json";
@@ -51,64 +67,34 @@ public class Evaluation {
         }
     }
 
-    int compareAnswers (Map <Integer, Integer> studentAnswers, Map <Integer, Integer> rightAnswers ){
-        if(studentAnswers.size() != rightAnswers.size()){
-            System.out.println("answers can't be compared");
-            return 0;
-        }
-        int rightAnswerCounter =0;
+   int compareAnswers (Map <Integer, Integer> studentAnswers, Map <Integer, Integer> rightAnswers ){
+        int rightAnswerCounter = 0;
         for (Map.Entry <Integer, Integer> answer : rightAnswers.entrySet()){
-            if (answer.getValue() == studentAnswers.get(answer.getKey())){
+            int rightAnswer = answer.getValue();
+            int studentAnswer = studentAnswers.get(answer.getKey());
+            if (rightAnswer == studentAnswer){
                 rightAnswerCounter ++;
             }
-
-            return rightAnswerCounter;
         }
-        return 0;
+       System.out.println(rightAnswerCounter);
+        return rightAnswerCounter;
     }
 
-    Map <Integer, Integer> getRightAnswers (Exam exam, String examFileName){
-        try {
-            File file = new File(examFileName);
-            if (!file.exists()) {
-                System.out.println("can't find exam file");
-                return null;
+    List <String> readAnswerListFile (String fileName) {
+            try{
+                List<String> fileNames = new ArrayList<>();
+                File file = new File(fileName);
+                if (!file.exists()){
+                    System.out.println("file with answers is missing:" + fileName);
+                    return null;
+                }
+                fileNames = mapper.readValue(file, new TypeReference<>() {});
+                return fileNames;
+            }catch (IOException e) {
+                System.out.println("Cant read answer list file:" + e.getMessage());
             }
-            Map<Integer, Integer> rightAnswers = mapper.readValue(file, new TypeReference<>() {});
-            return rightAnswers;
-        }catch (IOException e){
-            System.out.println("can't read the file:" + e.getMessage());
-        }
         return null;
-    }
 
-    Map <Integer, Integer> getStudentAnswers (String fileName){
-        try {
-            File file = new File(fileName);
-            if (!file.exists()) {
-                System.out.println("can't find student answers file");
-                return null;
-            }
-            Map<Integer, Integer> studentAnswers = mapper.readValue(file, new TypeReference<>() {});
-            return studentAnswers;
-        }catch (IOException e){
-            System.out.println("can't read the file:" + e.getMessage());
-        }
-        return null;
-    }
-    List <String> readStudentsAnswersFile (String fileName) {
-        File file = new File(fileName);
-        if (!file.exists()) {
-            System.out.println("The answer list file doesn't exist!!!");
-            return null;
-        }
-        try{
-            List<String>fileNames = mapper.readValue(file, new TypeReference<>() {});
-            return fileNames;
-        }catch (IOException e){
-            System.out.println("Can't read the file:" + e.getMessage());
-        }
-        return null;
     }
 
 }

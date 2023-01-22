@@ -15,6 +15,7 @@ public class LoggingMenu {
     Faker faker = new Faker();
     Scanner scanner = new Scanner(System.in);
     Examination examination = new Examination();
+    Evaluation evaluation = new Evaluation();
 
 
     void mainMenu(Scanner scanner, Map<String, Student> students, Map<String, Teacher> teachers){
@@ -42,7 +43,7 @@ public class LoggingMenu {
         do {
             System.out.println("""
                 [1] -> Create exam
-                [2] -> Get exam results
+                [2] -> Evaluate exam
                 [3] -> Get student result
                 [0] -> Exit
                 """);
@@ -65,7 +66,7 @@ public class LoggingMenu {
     void teacherMenuAction(String action, Teacher teacher){
         switch (action){
             case "1"-> examination.createExam(teacher);
-            case "2"-> System.out.println("getting exam results");
+            case "2"-> evaluation.evaluationMain(scanner);
             case "3"-> System.out.println("student results");
             case "0" -> System.out.println("Exit");
             default -> System.out.println("No such action");

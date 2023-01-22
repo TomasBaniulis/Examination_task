@@ -34,8 +34,4 @@ public class Main {
         menu.mainMenu(scanner, students, teachers);
     }
 
-
-
-
-
 }

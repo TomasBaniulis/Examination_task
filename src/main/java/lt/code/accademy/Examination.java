@@ -93,9 +93,19 @@ public class Examination {
                 System.out.printf("You can't take exam! Exam date is/was: %s%n", exam.getExamDate() );
                 return;
             }
-            Map <Integer, Integer> studentAnswers = runQuestions(exam);
-            StudentAnswers answers = new StudentAnswers(student.getId(), student.getName(), id, studentAnswers);
             String fileName = id + student.getId() + ".json";
+            File file = new File(fileName);
+            if (file.exists()){
+                List<String> answers = mapper.readValue(file, new TypeReference<>() {});
+                for (String answer: answers){
+                    if (answer.equals(fileName)){
+                        System.out.println("You can't take exam second time!");
+                        return;
+                    }
+                }
+            }
+            Map <Integer, Integer> studentAnswers = runQuestions(exam);
+            StudentAnswers answers = new StudentAnswers(student.getId(), student.getName(), exam.getExamId(), studentAnswers);
             writeToFile(fileName, answers);
             createListOfStudentAnswerFiles(exam, fileName);
         }catch (IOException e){
