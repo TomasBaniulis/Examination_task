@@ -71,7 +71,7 @@ public class LoggingMenu {
         switch (action){
             case "1"-> examination.createExam(teacher);
             case "2"-> evaluation.evaluationMain(scanner);
-            case "3"-> evaluation.readEvaluation();
+            case "3"-> grade.showGradesForTeacher();
             case "0" -> System.out.println("Exit");
             default -> System.out.println("No such action");
         }

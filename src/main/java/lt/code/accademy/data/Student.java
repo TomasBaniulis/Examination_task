@@ -1,6 +1,12 @@
 package lt.code.accademy.data;
 
-public class Student {
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.KeyDeserializer;
+
+import java.io.IOException;
+
+public class Student  {
 
     String id;
     String name;
@@ -13,6 +19,14 @@ public class Student {
         this.id = id;
         this.name = name;
     }
+
+    public Student (String string){
+        String [] values = string.split(" ");
+        this.id = values[1].trim();
+        this.name = values[3].trim() + " " + values[4].trim();
+        this.password = values[values.length-1].trim();
+    }
+
     public Student(String id, String name, String password) {
         this.id = id;
         this.name = name;
@@ -43,11 +57,13 @@ public class Student {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return "Student{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
+                "id: " + id +
+                " name: " + name +
+                " password: " + password + " " +
                 '}';
     }
+
 }

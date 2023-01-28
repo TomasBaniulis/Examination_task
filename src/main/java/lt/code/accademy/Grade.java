@@ -36,7 +36,7 @@ public class Grade {
         try{
             grades = mapper.readValue(file, new TypeReference<>() {});
             for (Map.Entry<Student, Integer> grade: grades.entrySet()){
-                System.out.printf("%s grade: %s%n", grade.getKey().getName(), grade);
+                System.out.printf("%s grade: %s%n", grade.getKey().getName(), grade.getValue());
             }
         }catch (IOException e){
             System.out.println("can't read grades file:" + e);
@@ -56,12 +56,12 @@ public class Grade {
         try{
             grades = mapper.readValue(file, new TypeReference<>() {});
             for (Map.Entry<Student, Integer> grade: grades.entrySet()) {
-                if (!grade.getKey().getId().equals(student.getId())) {
-                    System.out.println("You didn't take exam!");
-                } else if (grade.getKey().getId().equals(student.getId())) {
-                    System.out.printf("Your grade: %s%n", grade);
+                if (grade.getKey().getId().equals(student.getId())) {
+                    System.out.printf("Your grade: %s%n", grade.getValue());
+                    return;
                 }
             }
+            System.out.println("You didn't take this exam");
         }catch (IOException e){
             System.out.println("Can't read grades file:" + e);
         }
