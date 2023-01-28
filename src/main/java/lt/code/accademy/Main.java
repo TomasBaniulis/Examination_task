@@ -13,20 +13,24 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    public static void main(String[] args){
         Faker faker = new Faker();
-        StudentsAndTeachers studentsAndTeachers = new StudentsAndTeachers();
-        LoggingMenu menu = new LoggingMenu();
+        ObjectMapper mapper = new ObjectMapper();
+        Scanner scanner = new Scanner(System.in);
+        WriteReadFile writeReadFile = new WriteReadFile(mapper);
+        Examination examination = new Examination(scanner, faker, mapper, writeReadFile);
+        Evaluation evaluation = new Evaluation(mapper, scanner, faker, writeReadFile, examination);
+        Grade grade = new Grade(mapper, scanner);
+        LoggingMenu menu = new LoggingMenu(scanner,examination, evaluation, grade);
 
-        Map<String, Student> students = studentsAndTeachers.readStudents(mapper, FileNames.STUDENTS_FILE.toString());
-        Map<String, Teacher> teachers = studentsAndTeachers.readTeachers(mapper, FileNames.TEACHERS_FILE.toString());
+        StudentsAndTeachers studentsAndTeachers = new StudentsAndTeachers(mapper, faker, writeReadFile);
 
-        //studentsAndTeachers.generateStudents(mapper, faker);
-        //studentsAndTeachers.generateTeachers(mapper, faker);
-        menu.mainMenu(scanner, students, teachers);
+        //studentsAndTeachers.generateStudents();
+        //studentsAndTeachers.generateTeachers();
+
+        Map<String, Student> students = studentsAndTeachers.readStudents();
+        Map<String, Teacher> teachers = studentsAndTeachers.readTeachers();
+
+        menu.mainMenu(students, teachers);
     }
-
 }

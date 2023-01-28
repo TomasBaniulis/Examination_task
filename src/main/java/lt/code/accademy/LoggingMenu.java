@@ -10,15 +10,19 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class LoggingMenu {
+    Scanner scanner;
+    Examination examination;
+    Evaluation evaluation;
+    Grade grade;
 
-    ObjectMapper mapper = new ObjectMapper();
-    Faker faker = new Faker();
-    Scanner scanner = new Scanner(System.in);
-    Examination examination = new Examination();
-    Evaluation evaluation = new Evaluation();
+    public LoggingMenu(Scanner scanner, Examination examination, Evaluation evaluation, Grade grade) {
+        this.scanner = scanner;
+        this.examination = examination;
+        this.evaluation = evaluation;
+        this.grade = grade;
+    }
 
-
-    void mainMenu(Scanner scanner, Map<String, Student> students, Map<String, Teacher> teachers){
+    void mainMenu(Map<String, Student> students, Map<String, Teacher> teachers){
         String action;
         do {
             System.out.println("""
@@ -67,7 +71,7 @@ public class LoggingMenu {
         switch (action){
             case "1"-> examination.createExam(teacher);
             case "2"-> evaluation.evaluationMain(scanner);
-            case "3"-> System.out.println("student results");
+            case "3"-> evaluation.readEvaluation();
             case "0" -> System.out.println("Exit");
             default -> System.out.println("No such action");
         }
@@ -75,7 +79,7 @@ public class LoggingMenu {
     void studentMenuAction(String action, Student student){
         switch (action){
             case "1"-> examination.takeExam(student);
-            case "2"-> System.out.println("getting exam results");
+            case "2"-> grade.showExamGradeForStudent(student);
             case "0" -> System.out.println("Exit");
             default -> System.out.println("No such action");
         }

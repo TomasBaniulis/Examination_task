@@ -14,10 +14,17 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class StudentsAndTeachers {
-    WriteReadFile writeReadFile = new WriteReadFile();
+    ObjectMapper mapper;
+    Faker faker;
+    WriteReadFile writeReadFile;
 
-    Examination examination = new Examination();
-    void generateStudents(ObjectMapper mapper, Faker faker) {
+    public StudentsAndTeachers(ObjectMapper mapper, Faker faker, WriteReadFile writeReadFile) {
+        this.mapper = mapper;
+        this.faker = faker;
+        this.writeReadFile = writeReadFile;
+    }
+
+    void generateStudents() {
         Map<String, Student> students = new HashMap<>();
         int counter = 1;
         for (int i = 0; i < 20; i++) {
@@ -27,9 +34,9 @@ public class StudentsAndTeachers {
             students.put(id, new Student(id, name, password));
             counter++;
         }
-        writeReadFile.writeToFile(mapper, FileNames.STUDENTS_FILE.toString(), students);
+        writeReadFile.writeToFile(FileNames.STUDENTS_FILE.toString(), students);
     }
-    void generateTeachers(ObjectMapper mapper, Faker faker) {
+    void generateTeachers() {
         Map<String, Teacher> teachers = new HashMap<>();
         int counter = 1;
         for (int i = 0; i < 3; i++) {
@@ -40,25 +47,27 @@ public class StudentsAndTeachers {
             teachers.put(id, new Teacher(subject, id, name, password));
             counter++;
         }
-        writeReadFile.writeToFile(mapper, FileNames.TEACHERS_FILE.toString(), teachers);
+        writeReadFile.writeToFile( FileNames.TEACHERS_FILE.toString(), teachers);
     }
-    Map<String, Student> readStudents(ObjectMapper mapper, String studentsFile) {
+    Map<String, Student> readStudents() {
         try {
-            Map<String, Student> students = mapper.readValue(studentsFile, new TypeReference<>() {
+            File file = new File(FileNames.STUDENTS_FILE.toString());
+            Map<String, Student> students = mapper.readValue(file, new TypeReference<>() {
             });
             return students;
         } catch (IOException e) {
-            System.out.printf("Can't read %s files: %s%n", studentsFile, e.getMessage());
+            System.out.printf("Can't read %s files: %s%n", FileNames.STUDENTS_FILE.toString(), e.getMessage());
         }
         return null;
     }
-    Map<String, Teacher> readTeachers(ObjectMapper mapper, String teachersFile) {
+    Map<String, Teacher> readTeachers() {
         try {
-            Map<String, Teacher> teachers = mapper.readValue(teachersFile, new TypeReference<>() {
+            File file = new File(FileNames.TEACHERS_FILE.toString());
+            Map<String, Teacher> teachers = mapper.readValue(file, new TypeReference<>() {
             });
             return teachers;
         } catch (IOException e) {
-            System.out.printf("Can't read %s files: %s%n", teachersFile, e.getMessage());
+            System.out.printf("Can't read %s files: %s%n", FileNames.TEACHERS_FILE, e.getMessage());
         }
         return null;
     }

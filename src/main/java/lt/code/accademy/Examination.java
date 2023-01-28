@@ -12,20 +12,21 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
 
 public class Examination {
-    Scanner scanner = new Scanner(System.in);
-    Faker faker = new Faker();
-    ObjectMapper mapper = new ObjectMapper();
+    Scanner scanner;
+    Faker faker;
+    ObjectMapper mapper;
+    WriteReadFile writeReadFile;
 
-    WriteReadFile writeReadFile = new WriteReadFile();
-
-    Random random = new Random();
-
-    public String createFileName (String name){
-        String fileName = name+".json";
-        return fileName;
+    public Examination(Scanner scanner, Faker faker, ObjectMapper mapper, WriteReadFile writeReadFile) {
+        this.scanner = scanner;
+        this.faker = faker;
+        this.mapper = mapper;
+        this.writeReadFile = writeReadFile;
     }
+    Random random = new Random();
 
     LocalDate getDate (){
         while (true){
@@ -40,15 +41,14 @@ public class Examination {
             }
         }
     }
-
     void createExam (Teacher teacher){
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         System.out.println("Generating exam id");
         String examId =faker.code().ean8();
         System.out.println("Exam id number:" + examId);
         String examName = faker.commerce().material();
         System.out.println(examName);
-        LocalDate date = getDate();
-        String dateString = date.toString();
+        String date = getDate().toString();
         Map<Integer, String> questions = new HashMap<>();
         Map<Integer, Integer> answers = new HashMap<>();
         int counter = 1;
@@ -60,13 +60,15 @@ public class Examination {
             counter++;
         }
         System.out.println("Exam has been generated");
+        System.out.println("Exam id:" + examId);
         Exam exam = new Exam(teacher.getSubjectName(), teacher.getTeacherName(),
-                examId, examName, dateString, questions, answers);
+                examId, examName, date, questions, answers);
         String fileName = exam.getExamId() + FileNames.JSON_EXTENSION;
-        writeReadFile.writeToFile(mapper,fileName, exam);
+        writeReadFile.writeToFile(fileName, exam);
     }
 
     void takeExam (Student student){
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         System.out.println("Enter exam id");
         String id = scanner.nextLine();
         String examFileName = id + FileNames.JSON_EXTENSION; ;
@@ -79,7 +81,7 @@ public class Examination {
             Exam exam = mapper.readValue(examFile, new TypeReference<>() {});
             LocalDate dateNow = LocalDate.now();
             if (!dateNow.equals(LocalDate.parse(exam.getExamDate()))){
-                System.out.printf("You can't take exam! Exam date is/was: %s%n", exam.getExamDate() );
+                System.out.printf("You can't take exam today! Exam date: %s%n", exam.getExamDate() );
                 return;
             }
             String fileName = id + student.getId() + FileNames.JSON_EXTENSION;
@@ -90,7 +92,7 @@ public class Examination {
             }
             Map <Integer, Integer> studentAnswers = runQuestions(exam);
             StudentAnswers answers = new StudentAnswers(student.getId(), student.getName(), exam.getExamId(), studentAnswers);
-            writeReadFile.writeToFile(mapper, fileName, answers);
+            writeReadFile.writeToFile(fileName, answers);
             createListOfStudentAnswerFiles(exam, fileName);
         }catch (IOException e){
             System.out.println("Can't read exam file:" + e.getMessage());
@@ -112,6 +114,7 @@ public class Examination {
     }
 
     void createListOfStudentAnswerFiles (Exam exam, String name) {
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         List<String > fileNames = new ArrayList<>();
         String fileName = exam.getExamId() + FileNames.ANSWERS_FILES_LIST_FILE_EXTENSION;
         File file = new File(fileName);
@@ -124,14 +127,11 @@ public class Examination {
             }
             fileNames = mapper.readValue(file, new TypeReference<>() {});
             fileNames.add(name);
-
             mapper.writeValue(file, fileNames);
-
         }catch (IOException e){
             System.out.println("Cant create file:" + e.getMessage());
         }
     }
-
     boolean checkForSecondAttempt (String fileName, String listFile){
         try {
             File file = new File(listFile);
