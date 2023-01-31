@@ -1,24 +1,23 @@
-package lt.code.accademy;
+package lt.code.academy;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
-import lt.code.accademy.data.FileNames;
-import lt.code.accademy.data.Student;
-import lt.code.accademy.data.Teacher;
+import lt.code.academy.data.FileNames;
+import lt.code.academy.data.Student;
+import lt.code.academy.data.Teacher;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class StudentsAndTeachers {
     ObjectMapper mapper;
     Faker faker;
-    WriteReadFile writeReadFile;
+    WriteFileService writeReadFile;
 
-    public StudentsAndTeachers(ObjectMapper mapper, Faker faker, WriteReadFile writeReadFile) {
+    public StudentsAndTeachers(ObjectMapper mapper, Faker faker, WriteFileService writeReadFile) {
         this.mapper = mapper;
         this.faker = faker;
         this.writeReadFile = writeReadFile;

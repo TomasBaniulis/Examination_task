@@ -1,4 +1,4 @@
-package lt.code.accademy.data;
+package lt.code.academy.data;
 
 public class Teacher extends Subject {
     String teacherId;

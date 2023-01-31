@@ -1,10 +1,10 @@
-package lt.code.accademy;
+package lt.code.academy;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.javafaker.Faker;
-import lt.code.accademy.data.*;
+import lt.code.academy.data.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,42 +12,32 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.function.Function;
 
 public class Examination {
     Scanner scanner;
     Faker faker;
     ObjectMapper mapper;
-    WriteReadFile writeReadFile;
+    WriteFileService writeReadFile;
 
-    public Examination(Scanner scanner, Faker faker, ObjectMapper mapper, WriteReadFile writeReadFile) {
+    public Examination(Scanner scanner, Faker faker, ObjectMapper mapper, WriteFileService writeReadFile) {
         this.scanner = scanner;
         this.faker = faker;
         this.mapper = mapper;
         this.writeReadFile = writeReadFile;
     }
+
     Random random = new Random();
 
-    LocalDate getDate (){
-        while (true){
-            try{
-                System.out.println("Enter exam date yyyy.MM.dd :");
-                String date = scanner.nextLine();
-                LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-                return localDate;
-
-            }catch (DateTimeException e) {
-                System.out.println("Wrong date format. Try again!");
-            }
-        }
-    }
     void createExam (Teacher teacher){
+        Exam exam = generateExamQuestions(teacher);
+        String fileName = exam.getExamId() + FileNames.JSON_EXTENSION;
+        writeReadFile.writeToFile(fileName, exam);
+    }
+
+    private Exam generateExamQuestions (Teacher teacher){
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        System.out.println("Generating exam id");
         String examId =faker.code().ean8();
-        System.out.println("Exam id number:" + examId);
         String examName = faker.commerce().material();
-        System.out.println(examName);
         String date = getDate().toString();
         Map<Integer, String> questions = new HashMap<>();
         Map<Integer, Integer> answers = new HashMap<>();
@@ -60,11 +50,10 @@ public class Examination {
             counter++;
         }
         System.out.println("Exam has been generated");
-        System.out.println("Exam id:" + examId);
-        Exam exam = new Exam(teacher.getSubjectName(), teacher.getTeacherName(),
+        System.out.println("Exam topic: " + examName );
+        System.out.println("Exam id: " + examId);
+        return new Exam(teacher.getSubjectName(), teacher.getTeacherName(),
                 examId, examName, date, questions, answers);
-        String fileName = exam.getExamId() + FileNames.JSON_EXTENSION;
-        writeReadFile.writeToFile(fileName, exam);
     }
 
     void takeExam (Student student){
@@ -98,6 +87,7 @@ public class Examination {
             System.out.println("Can't read exam file:" + e.getMessage());
         }
     }
+
     Map<Integer, Integer> runQuestions (Exam exam){
         Map <Integer, String> questions = exam.getQuestions();
         Map<Integer, Integer> answers = new HashMap<>();
@@ -149,6 +139,19 @@ public class Examination {
             System.out.printf("Can't read %s file : %s%n", fileName, e.getMessage());
         }
         return true;
+    }
+
+    LocalDate getDate (){
+        while (true){
+            try{
+                System.out.println("Enter exam date yyyy.MM.dd :");
+                String date = scanner.nextLine();
+                LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+                return localDate;
+            }catch (DateTimeException e) {
+                System.out.println("Wrong date format. Try again!");
+            }
+        }
     }
 }
 

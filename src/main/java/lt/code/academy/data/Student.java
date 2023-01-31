@@ -1,10 +1,6 @@
-package lt.code.accademy.data;
+package lt.code.academy.data;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.KeyDeserializer;
-
-import java.io.IOException;
 
 public class Student  {
 
@@ -57,7 +53,6 @@ public class Student  {
     }
 
     @Override
-    @JsonValue
     public String toString() {
         return "Student{" +
                 "id: " + id +

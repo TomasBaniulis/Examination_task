@@ -1,10 +1,7 @@
-package lt.code.accademy;
+package lt.code.academy;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.github.javafaker.Faker;
-import lt.code.accademy.data.Student;
-import lt.code.accademy.data.Teacher;
+import lt.code.academy.data.Student;
+import lt.code.academy.data.Teacher;
 
 import java.util.Map;
 import java.util.Scanner;

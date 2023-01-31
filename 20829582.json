@@ -1,0 +1,33 @@
+{
+  "subjectName" : "Moonstone Skull",
+  "teacherId" : null,
+  "teacherName" : "Lyndsey Zemlak",
+  "password" : null,
+  "examId" : "20829582",
+  "examName" : "Rubber",
+  "examDate" : "2023-01-29",
+  "questions" : {
+    "1" : "When a bug sees Chuck Norris, it flees screaming in terror, and then immediately self-destructs to avoid being roundhouse-kicked.",
+    "2" : "There is nothing regular about Chuck Norris' expressions.",
+    "3" : "Chuck Norris doesn't bug hunt, as that signifies a probability of failure. He goes bug killing.",
+    "4" : "There is nothing regular about Chuck Norris' expressions.",
+    "5" : "Chuck Norris can compile syntax errors.",
+    "6" : "Chuck Norris can't test for equality because he has no equal.",
+    "7" : "Chuck Norris has root access to your system.",
+    "8" : "Chuck Norris can divide by zero.",
+    "9" : "Chuck Norris doesn't need a debugger, he just stares down the bug until the code confesses.",
+    "10" : "Chuck Norris doesn't need the cloud to scale his applications, he uses his laptop."
+  },
+  "rightAnswers" : {
+    "1" : 1,
+    "2" : 1,
+    "3" : 1,
+    "4" : 1,
+    "5" : 2,
+    "6" : 2,
+    "7" : 1,
+    "8" : 2,
+    "9" : 1,
+    "10" : 2
+  }
+}

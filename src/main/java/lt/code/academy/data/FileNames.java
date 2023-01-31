@@ -1,8 +1,8 @@
-package lt.code.accademy.data;
+package lt.code.academy.data;
 
 public enum FileNames {
-    STUDENTS_FILE ("students.json"),
-    TEACHERS_FILE ("teachers.json"),
+    STUDENTS_FILE ("HD.users.tomasbaniulis.Desktop.JAVA.Java files.Codeacademy.exam_app.students.json"),
+    TEACHERS_FILE ("HD.users.tomasbaniulis.Desktop.JAVA. Java files.Codeacademy.exam_app.teachers.json"),
     JSON_EXTENSION (".json"),
     ANSWERS_FILES_LIST_FILE_EXTENSION ("answerList.json"),
     GRADES_FILE_EXTENSION ("grades.json");

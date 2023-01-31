@@ -1,6 +1,5 @@
-package lt.code.accademy.data;
+package lt.code.academy.data;
 
-import java.time.LocalDate;
 import java.util.Map;
 
 public class StudentAnswers extends Student{

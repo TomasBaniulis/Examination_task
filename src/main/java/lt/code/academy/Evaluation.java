@@ -1,11 +1,10 @@
-package lt.code.accademy;
+package lt.code.academy;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.javafaker.Faker;
-import lt.code.accademy.data.*;
+import lt.code.academy.data.*;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -16,10 +15,10 @@ public class Evaluation {
     ObjectMapper mapper;
     Scanner scanner;
     Faker faker;
-    WriteReadFile writeReadFile;
+    WriteFileService writeReadFile;
     Examination examination;
 
-    public Evaluation(ObjectMapper mapper, Scanner scanner, Faker faker, WriteReadFile writeReadFile, Examination examination) {
+    public Evaluation(ObjectMapper mapper, Scanner scanner, Faker faker, WriteFileService writeReadFile, Examination examination) {
         this.mapper = mapper;
         this.scanner = scanner;
         this.faker = faker;
@@ -35,7 +34,7 @@ public class Evaluation {
         try {
             File file = new File(examFileName);
             if (!file.exists()) {
-                System.out.println("exam id doesn't exist!");
+                System.out.println("exam doesn't exist!");
                 return;
             }
             Exam exam = mapper.readValue(file, new TypeReference<>() {
@@ -53,14 +52,16 @@ public class Evaluation {
         }
     }
 
-    void evaluateStudents(String answerListFileName, Exam exam) {
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    private void evaluateStudents(String answerListFileName, Exam exam) {
         try {
             List<String> fileNames = readAnswerListFile(answerListFileName);
             Map<Student, Integer> marks = new HashMap<>();
-
             for (String fileName : fileNames) {
                 File file = new File(fileName);
+                if (!file.exists()){
+                    System.out.println("0 students took exam");
+                    return;
+                }
                 StudentAnswers studentAnswer = mapper.readValue(file, new TypeReference<>() {
                 });
                 Map<Integer, Integer> studentAnswers = studentAnswer.getAnswers();
@@ -73,6 +74,7 @@ public class Evaluation {
                 marks.put(student, grade);
             }
             String examMarksFileName = exam.getExamId() + FileNames.GRADES_FILE_EXTENSION;
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
             writeReadFile.writeToFile(examMarksFileName, marks);
 
         } catch (IOException e) {
@@ -80,7 +82,7 @@ public class Evaluation {
         }
     }
 
-    int compareAnswers(Map<Integer, Integer> studentAnswers, Map<Integer, Integer> rightAnswers) {
+    public int compareAnswers(Map<Integer, Integer> studentAnswers, Map<Integer, Integer> rightAnswers) {
         int rightAnswerCounter = 0;
         for (Map.Entry<Integer, Integer> answer : rightAnswers.entrySet()) {
             int rightAnswer = answer.getValue();
@@ -92,7 +94,7 @@ public class Evaluation {
         return rightAnswerCounter;
     }
 
-    List<String> readAnswerListFile(String fileName) {
+     List<String> readAnswerListFile(String fileName) {
         try {
             List<String> fileNames = new ArrayList<>();
             File file = new File(fileName);
