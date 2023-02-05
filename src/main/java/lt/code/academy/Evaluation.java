@@ -55,13 +55,13 @@ public class Evaluation {
     private void evaluateStudents(String answerListFileName, Exam exam) {
         try {
             List<String> fileNames = readAnswerListFile(answerListFileName);
+            if (fileNames.size() == 0){
+                System.out.println("0 students took exam");
+                return;
+            }
             Map<Student, Integer> marks = new HashMap<>();
             for (String fileName : fileNames) {
                 File file = new File(fileName);
-                if (!file.exists()){
-                    System.out.println("0 students took exam");
-                    return;
-                }
                 StudentAnswers studentAnswer = mapper.readValue(file, new TypeReference<>() {
                 });
                 Map<Integer, Integer> studentAnswers = studentAnswer.getAnswers();
@@ -95,12 +95,12 @@ public class Evaluation {
     }
 
      List<String> readAnswerListFile(String fileName) {
+         List<String> fileNames = new ArrayList<>();
         try {
-            List<String> fileNames = new ArrayList<>();
             File file = new File(fileName);
             if (!file.exists()) {
                 System.out.println("file with answers is missing:" + fileName);
-                return null;
+                return fileNames;
             }
             fileNames = mapper.readValue(file, new TypeReference<>() {
             });
@@ -108,6 +108,6 @@ public class Evaluation {
         } catch (IOException e) {
             System.out.println("Cant read answer list file:" + e.getMessage());
         }
-        return null;
+        return fileNames;
     }
 }

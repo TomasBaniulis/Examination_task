@@ -1,0 +1,33 @@
+{
+  "subjectName" : "Penance",
+  "teacherId" : null,
+  "teacherName" : "Darrin Douglas II",
+  "password" : null,
+  "examId" : "35258582",
+  "examName" : "Concrete",
+  "examDate" : "2023-02-02",
+  "questions" : {
+    "1" : "Chuck Norris can divide by zero.",
+    "2" : "Chuck Norris can instantiate an abstract class.",
+    "3" : "Chuck Norris doesn't need a java compiler, he goes straight to .war",
+    "4" : "When Chuck Norris points to null, null quakes in fear.",
+    "5" : "Chuck Norris went out of an infinite loop.",
+    "6" : "Chuck Norris doesn't believe in floating point numbers because they can't be typed on his binary keyboard.",
+    "7" : "Chuck Norris solved the Travelling Salesman problem in O(1) time.",
+    "8" : "Chuck Norris can solve the Towers of Hanoi in one move.",
+    "9" : "\"It works on my machine\" always holds true for Chuck Norris.",
+    "10" : "Chuck Norris can binary search unsorted data."
+  },
+  "rightAnswers" : {
+    "1" : 2,
+    "2" : 1,
+    "3" : 1,
+    "4" : 2,
+    "5" : 1,
+    "6" : 1,
+    "7" : 1,
+    "8" : 1,
+    "9" : 2,
+    "10" : 1
+  }
+}

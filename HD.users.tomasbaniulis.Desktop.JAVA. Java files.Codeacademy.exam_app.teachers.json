@@ -1,20 +1,20 @@
 {
   "1" : {
-    "subjectName" : "General Moloch",
+    "subjectName" : "Captain Misfit the Hunter",
     "teacherId" : "1",
-    "teacherName" : "Beverlee Hammes",
+    "teacherName" : "Concetta Heidenreich",
     "password" : "alio"
   },
   "2" : {
-    "subjectName" : "Rhino Strange",
+    "subjectName" : "Red Joker Spirit",
     "teacherId" : "2",
-    "teacherName" : "Dr. Mercedes Abernathy",
+    "teacherName" : "Jonie Koelpin",
     "password" : "alio"
   },
   "3" : {
-    "subjectName" : "Gog Wolf",
+    "subjectName" : "Silverclaw",
     "teacherId" : "3",
-    "teacherName" : "Zulema Stokes",
+    "teacherName" : "Ms. Mitzie Corkery",
     "password" : "alio"
   }
 }

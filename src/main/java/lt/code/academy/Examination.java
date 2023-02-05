@@ -34,7 +34,7 @@ public class Examination {
         writeReadFile.writeToFile(fileName, exam);
     }
 
-    private Exam generateExamQuestions (Teacher teacher){
+     Exam generateExamQuestions (Teacher teacher){
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         String examId =faker.code().ean8();
         String examName = faker.commerce().material();

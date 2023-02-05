@@ -1,0 +1,33 @@
+{
+  "subjectName" : "Ultra Ariel Woman",
+  "teacherId" : null,
+  "teacherName" : "Joshua Kunze",
+  "password" : null,
+  "examId" : "82338312",
+  "examName" : "Wool",
+  "examDate" : "2023-02-05",
+  "questions" : {
+    "1" : "Chuck Norris doesn't believe in floating point numbers because they can't be typed on his binary keyboard.",
+    "2" : "Chuck Norris doesn't use a computer because a computer does everything slower than Chuck Norris.",
+    "3" : "When Chuck Norris' code fails to compile the compiler apologises.",
+    "4" : "The only pattern Chuck Norris knows is God Object.",
+    "5" : "Chuck Norris' protocol design method has no status, requests or responses, only commands.",
+    "6" : "Chuck Norris doesn't need a java compiler, he goes straight to .war",
+    "7" : "Chuck Norris's keyboard doesn't have a Ctrl key because nothing controls Chuck Norris.",
+    "8" : "The only pattern Chuck Norris knows is God Object.",
+    "9" : "Chuck Norris can write multi-threaded applications with a single thread.",
+    "10" : "When Chuck Norris presses Ctrl+Alt+Delete, worldwide computer restart is initiated."
+  },
+  "rightAnswers" : {
+    "1" : 2,
+    "2" : 1,
+    "3" : 2,
+    "4" : 1,
+    "5" : 2,
+    "6" : 1,
+    "7" : 1,
+    "8" : 1,
+    "9" : 2,
+    "10" : 1
+  }
+}

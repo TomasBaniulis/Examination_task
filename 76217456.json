@@ -1,0 +1,33 @@
+{
+  "subjectName" : "Arachne",
+  "teacherId" : null,
+  "teacherName" : "Mauricio Anderson",
+  "password" : null,
+  "examId" : "76217456",
+  "examName" : "Copper",
+  "examDate" : "2023-02-02",
+  "questions" : {
+    "1" : "Chuck Norris doesn't believe in floating point numbers because they can't be typed on his binary keyboard.",
+    "2" : "Whiteboards are white because Chuck Norris scared them that way.",
+    "3" : "When Chuck Norris points to null, null quakes in fear.",
+    "4" : "Chuck Norris has root access to your system.",
+    "5" : "Chuck Norris breaks RSA 128-bit encrypted codes in milliseconds.",
+    "6" : "Chuck Norris can unit test an entire application with a single assert.",
+    "7" : "Chuck Norris doesn't get compiler errors, the language changes itself to accommodate Chuck Norris.",
+    "8" : "Anonymous methods and anonymous types are really all called Chuck Norris. They just don't like to boast.",
+    "9" : "There is no Esc key on Chuck Norris' keyboard, because no one escapes Chuck Norris.",
+    "10" : "Whiteboards are white because Chuck Norris scared them that way."
+  },
+  "rightAnswers" : {
+    "1" : 1,
+    "2" : 1,
+    "3" : 2,
+    "4" : 2,
+    "5" : 2,
+    "6" : 2,
+    "7" : 2,
+    "8" : 2,
+    "9" : 2,
+    "10" : 2
+  }
+}

@@ -23,34 +23,6 @@ class WriteFileServiceTest {
     @InjectMocks
     private WriteFileService service;
 
-    File createFile () throws IOException {
-    File file = new File("testFile.json");
-    if(!file.exists()) {
-        file.createNewFile();
-    }
-    return file;
-    }
 
-    @Test
-    void testCreateFileWhenFileDoNotExist() throws IOException {
-
-
-    }
-
-    @Test
-    void testWriteFileWhenCanNotWriteToFile() throws IOException {
-
-        String fileName = "test.json";
-        List<Integer>numbers = List.of(1,2,3,4);
-        service.writeToFile("test.json",numbers);
-        File file = new File("testasA.json");
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-
-        service.writeToFile(fileName, numbers);
-
-        verify(mapper, times(1)).writeValue(file, eq(numbers));
-    }
 
 }

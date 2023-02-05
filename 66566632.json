@@ -1,0 +1,33 @@
+{
+  "subjectName" : "Captain Misfit the Hunter",
+  "teacherId" : null,
+  "teacherName" : "Concetta Heidenreich",
+  "password" : null,
+  "examId" : "66566632",
+  "examName" : "Plastic",
+  "examDate" : "2023-02-05",
+  "questions" : {
+    "1" : "Chuck Norris programs do not accept input.",
+    "2" : "Chuck Norris can binary search unsorted data.",
+    "3" : "Chuck Norris doesn't need a debugger, he just stares down the bug until the code confesses.",
+    "4" : "Chuck Norris doesn't need a java compiler, he goes straight to .war",
+    "5" : "Chuck Norris doesn't use a computer because a computer does everything slower than Chuck Norris.",
+    "6" : "The programs that Chuck Norris writes don't have version numbers because he only writes them once. If a user reports a bug or has a feature request they don't live to see the sun set.",
+    "7" : "Chuck Norris never gets a syntax error. Instead, the language gets a DoesNotConformToChuck error.",
+    "8" : "The programs that Chuck Norris writes don't have version numbers because he only writes them once. If a user reports a bug or has a feature request they don't live to see the sun set.",
+    "9" : "Chuck Norris doesn't believe in floating point numbers because they can't be typed on his binary keyboard.",
+    "10" : "\"It works on my machine\" always holds true for Chuck Norris."
+  },
+  "rightAnswers" : {
+    "1" : 1,
+    "2" : 2,
+    "3" : 1,
+    "4" : 1,
+    "5" : 1,
+    "6" : 1,
+    "7" : 1,
+    "8" : 2,
+    "9" : 1,
+    "10" : 2
+  }
+}
