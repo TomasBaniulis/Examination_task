@@ -54,6 +54,7 @@ class EvaluationTest {
         int counter = evaluation.compareAnswers(studentAnswers,rightAnswers);
 
         assertEquals(0, counter);
+
     }
 
     @Test
