@@ -29,19 +29,20 @@ class ExaminationTest {
     Teacher teacher;
     @Mock
     Exam exam;
-    @Mock
-    ObjectMapper mapper;
+
+    ObjectMapper mapper = new ObjectMapper();
     @Mock
     Scanner scanner;
     @Mock
     Faker faker;
     @Mock
     private WriteFileService writeReadFile;
-    @InjectMocks
-    Examination examination;
+   // @InjectMocks
+    //Examination examination;
 
     @Test
     void testCheckForSecondAttemptWhenListOfFilesDoesNotExist() {
+        Examination examination = new Examination(scanner, faker, mapper, writeReadFile);
         String textOne = "test1.json";
         String textTwo = "test2.json";
 
@@ -50,13 +51,25 @@ class ExaminationTest {
         assertTrue(result);
     }
     @Test
-    void testCheckForSecondAttemptWhenListOfFilesExist () {
+    void testCheckForSecondAttemptWhenListOfFilesExistAndAnswerExists () {
+        Examination examination = new Examination(scanner, faker, mapper, writeReadFile);
         String textOne = "test1.json";
         String textTwo = "testFileNames.json";
         Boolean result = examination.checkForSecondAttempt(textOne, textTwo);
 
         assertFalse(result);
     }
+
+    @Test
+    void testCheckForSecondAttemptWhenListOfFilesExistAndAnswerDoesNotExist () {
+        Examination examination = new Examination(scanner, faker, mapper, writeReadFile);
+        String textOne = "test3.json";
+        String textTwo = "testFileNames.json";
+        Boolean result = examination.checkForSecondAttempt(textOne, textTwo);
+
+        assertTrue(result);
+    }
+
     @BeforeAll
     static void createAnswerListFile() {
         ObjectMapper ob = new ObjectMapper();
@@ -73,7 +86,7 @@ class ExaminationTest {
             System.out.println("cant create file:" + e.getMessage());
         }
     }
-
+    @AfterAll
     static void deleteFile (){
         File file = new File("testFileNames.json");
         if (file.exists()){
