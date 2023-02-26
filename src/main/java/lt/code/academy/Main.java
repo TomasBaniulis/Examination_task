@@ -21,8 +21,8 @@ public class Main {
 
         StudentsAndTeachers studentsAndTeachers = new StudentsAndTeachers(mapper, faker, writeReadFile);
 
-        studentsAndTeachers.generateStudents();
-        studentsAndTeachers.generateTeachers();
+        //studentsAndTeachers.generateStudents();
+        //studentsAndTeachers.generateTeachers();
 
         Map<String, Student> students = studentsAndTeachers.readStudents();
         Map<String, Teacher> teachers = studentsAndTeachers.readTeachers();

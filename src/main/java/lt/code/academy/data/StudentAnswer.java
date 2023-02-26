@@ -2,14 +2,14 @@ package lt.code.academy.data;
 
 import java.util.Map;
 
-public class StudentAnswers extends Student{
+public class StudentAnswer extends Student{
     String examId;
     Map <Integer, Integer> answers;
 
-    public StudentAnswers() {
+    public StudentAnswer() {
     }
 
-    public StudentAnswers( String id, String name, String examId, Map<Integer, Integer> answers) {
+    public StudentAnswer(String id, String name, String examId, Map<Integer, Integer> answers) {
         super(id,name);
         this.examId = examId;
         this.answers = answers;

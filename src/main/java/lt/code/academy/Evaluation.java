@@ -62,7 +62,7 @@ public class Evaluation {
             Map<Student, Integer> marks = new HashMap<>();
             for (String fileName : fileNames) {
                 File file = new File(fileName);
-                StudentAnswers studentAnswer = mapper.readValue(file, new TypeReference<>() {
+                StudentAnswer studentAnswer = mapper.readValue(file, new TypeReference<>() {
                 });
                 Map<Integer, Integer> studentAnswers = studentAnswer.getAnswers();
                 Map<Integer, Integer> rightAnswers = exam.getRightAnswers();
@@ -73,6 +73,7 @@ public class Evaluation {
                 Student student = new Student(studentAnswer.getId(), studentAnswer.getName(), studentAnswer.getPassword());
                 marks.put(student, grade);
             }
+
             String examMarksFileName = exam.getExamId() + FileNames.GRADES_FILE_EXTENSION;
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             writeReadFile.writeToFile(examMarksFileName, marks);

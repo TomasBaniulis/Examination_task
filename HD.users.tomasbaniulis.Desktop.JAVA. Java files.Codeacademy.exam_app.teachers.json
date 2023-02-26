@@ -1,20 +1,20 @@
 {
   "1" : {
-    "subjectName" : "Captain Misfit the Hunter",
+    "subjectName" : "Namorita",
     "teacherId" : "1",
-    "teacherName" : "Concetta Heidenreich",
+    "teacherName" : "Andrew Emard",
     "password" : "alio"
   },
   "2" : {
-    "subjectName" : "Red Joker Spirit",
+    "subjectName" : "Doctor Winter Soldier II",
     "teacherId" : "2",
-    "teacherName" : "Jonie Koelpin",
+    "teacherName" : "Jolanda Braun",
     "password" : "alio"
   },
   "3" : {
-    "subjectName" : "Silverclaw",
+    "subjectName" : "Archangel I",
     "teacherId" : "3",
-    "teacherName" : "Ms. Mitzie Corkery",
+    "teacherName" : "Laurence Heller",
     "password" : "alio"
   }
 }

@@ -76,11 +76,11 @@ public class Examination {
             String fileName = id + student.getId() + FileNames.JSON_EXTENSION;
             String answersListFile = exam.getExamId() + FileNames.ANSWERS_FILES_LIST_FILE_EXTENSION;
             boolean firstAttempt = checkForSecondAttempt(fileName, answersListFile);
-            if (firstAttempt != true){
+            if (!firstAttempt){
                 return;
             }
             Map <Integer, Integer> studentAnswers = runQuestions(exam);
-            StudentAnswers answers = new StudentAnswers(student.getId(), student.getName(), exam.getExamId(), studentAnswers);
+            StudentAnswer answers = new StudentAnswer(student.getId(), student.getName(), exam.getExamId(), studentAnswers);
             writeReadFile.writeToFile(fileName, answers);
             createListOfStudentAnswerFiles(exam, fileName);
         }catch (IOException e){
